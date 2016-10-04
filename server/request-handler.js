@@ -47,9 +47,42 @@ var requestHandler = function(request, response) {
   // other than plain text, like JSON or HTML.
   headers['Content-Type'] = 'JSON';
 
+
+  //Access and edit file containing messages
+  var fs = require('fs');
+  var messages = require('./messages.json');
+  // var parsedMessages = JSON.parse(messages);
+
+  if (request.method === 'POST') {
+    statusCode = 201;
+    messages.push(request._postData);
+    fs.writeFile('server/messages.json', JSON.stringify(messages), function(err) {
+      if (err) {
+        return console.error(err);
+      }
+      console.log(request);
+    });
+  }
+
+  // if (request.url !== 'http://127.0.0.1:3000/classes/messages') {
+  //   statusCode = 404;
+  // }
+
   // .writeHead() writes to the request line and headers of the response,
   // which includes the status and all headers.
   response.writeHead(statusCode, headers);
+
+  //Write a callback that generates results based on GET/POST request.
+
+
+
+
+  var responseBody = {
+    headers: request.headers,
+    method: request.method,
+    url: request.url,
+    results: messages
+  };
 
   // Make sure to always call response.end() - Node may not send
   // anything back to the client until you do. The string you pass to
@@ -58,7 +91,8 @@ var requestHandler = function(request, response) {
   //
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
-  response.end('Hello, World!');
+  // response.write(responseBody);
+  response.end(JSON.stringify(responseBody));
 };
 
 // These headers will allow Cross-Origin Resource Sharing (CORS).
@@ -72,3 +106,7 @@ var requestHandler = function(request, response) {
 // client from this domain by setting up static file serving.
 
 exports.requestHandler = requestHandler;
+
+
+
+
