@@ -2,7 +2,17 @@
 var http = require('http');
 
 var requestHandler = require('./request-handler');
-debugger;
+var staticServer = require('node-static');
+var util = require('util');
+
+var webroot = '../client/client/';
+
+
+var file = new(staticServer.Server)(webroot, {
+  cache: 600,
+  headers: {'X-powered-by': 'node-static'}
+});
+
 // Every server needs to listen on a port with a unique number. The
 // standard port for HTTP servers is port 80, but that port is
 // normally already claimed by another server and/or not accessible
