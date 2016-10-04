@@ -11,7 +11,7 @@ this file and include it in basic-server.js so that it actually works.
 *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html.
 
 **************************************************************/
-
+var messages = [];
 var requestHandler = function(request, response) {
   // Request and Response come from node's http module.
   //
@@ -27,7 +27,7 @@ var requestHandler = function(request, response) {
   // Adding more logging to your server can be an easy way to get passive
   // debugging help, but you should always be careful about leaving stray
   // console.logs in your code.
-  console.log('Serving request type ' + request.method + ' for url ' + request.url);
+  // console.log('Serving request type ' + request.method + ' for url ' + request.url);
 
   // The outgoing status.
   var statusCode = 200;
@@ -49,20 +49,31 @@ var requestHandler = function(request, response) {
 
 
   //Access and edit file containing messages
-  var fs = require('fs');
-  var messages = require('./messages.json');
+  // var fs = require('fs');
+  // var messages = require('./messages.json');
   // var parsedMessages = JSON.parse(messages);
 
-  if (request.method === 'POST') {
-    statusCode = 201;
-    messages.push(request._postData);
-    fs.writeFile('server/messages.json', JSON.stringify(messages), function(err) {
-      if (err) {
-        return console.error(err);
-      }
-      console.log(request);
-    });
+  // console.log(request.method);
+
+  // request = typeof request === 'string' ? JSON.parse(request) : request;
+
+  if (true) {
+    if (request.method === 'POST') {
+      statusCode = 201;
+      messages.push(request._postData);
+    }
+
+    if (request.method === 'GET') {
+      statusCode = 200;
+    }
   }
+
+    // fs.writeFile('server/messages.json', JSON.stringify(messages), function(err) {
+    //   if (err) {
+    //     return console.error(err);
+    //   }
+    //   console.log(request);
+    // });
 
   // if (request.url !== 'http://127.0.0.1:3000/classes/messages') {
   //   statusCode = 404;
@@ -106,7 +117,3 @@ var requestHandler = function(request, response) {
 // client from this domain by setting up static file serving.
 
 exports.requestHandler = requestHandler;
-
-
-
-
