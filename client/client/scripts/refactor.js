@@ -22,7 +22,7 @@
 
 app = {
 
-  server: 'https://api.parse.com/1/classes/messages/',
+  server: 'https://api.parse.com/1/messages/',
 
   init: function() {
     // Get username
@@ -121,7 +121,7 @@ app = {
 /////////////////////////////////////////////////////////////////////////////
 
 var Message = Backbone.Model.extend({
-  url: 'https://api.parse.com/1/classes/messages/',
+  url: 'https://api.parse.com/1/messages/',
   defaults: {
     username: '',
     text: ''
@@ -131,7 +131,7 @@ var Message = Backbone.Model.extend({
 var Messages = Backbone.Collection.extend({
 
   model: Message,
-  url: 'https://api.parse.com/1/classes/messages/',
+  url: 'https://api.parse.com/1/messages/',
 
   loadMsgs: function() {
     this.fetch({data: { order: '-createdAt' }});
